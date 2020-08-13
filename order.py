@@ -4,8 +4,6 @@ from list_to_panda import codes_group_by
 from daily_orders import sku_qty_processing
 
 
-sku_qty = sku_qty_processing()
-
 #print list of sku and quantities for the csv uploaded that can be easily copied and pasted
 # From daily_orders
 
