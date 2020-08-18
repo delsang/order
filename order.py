@@ -26,13 +26,13 @@ for qty in range(len(sku_qty)):
 
 # print the biz crit orders
 bco = 0
-print('\n \n biz crit orders are orders #:')
+print('\n \n *** Biz crit orders are orders #: ***')
 for bco in range(len(order_status)):
     print(order_status[bco])
     bco+1
 
 # Once processed by the tff-stock-ordering-master, enter the needed products for final process
-print("\n\n Enter/Paste the products needed from tff-stock-ordering-master, then Ctrl-Z to get the results.\n")
+print("\n\n Enter/Paste the products needed from tff-stock-ordering-master, then Ctrl-Z to get the reults.\n")
 
 content = []
 tomkin = []
