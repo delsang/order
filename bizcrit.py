@@ -27,10 +27,13 @@ def orders_business_critical():
 
         i+1
 
-    # print the biz crits
+    # return the biz crits
     j=0
+    biz_crit_orders = []
 
     for j in range(0, index_size):
         if status_order['bizcrit'][j] == True:
-            print('Order', status_order['Order Number'][j], 'is a business critical')
-        j+1
+            biz_crit_orders.insert(j, status_order['Order Number'][j])
+            j+1
+    
+    return(biz_crit_orders)

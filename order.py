@@ -2,12 +2,15 @@ import pandas as pd
 import list_to_panda
 from list_to_panda import codes_group_by
 from daily_orders import sku_qty_processing
+from bizcrit import orders_business_critical
+
+#importing the results of functions
+sku_qty = sku_qty_processing()
+order_status = orders_business_critical()
 
 
 #print list of sku and quantities for the csv uploaded that can be easily copied and pasted
 # From daily_orders
-
-sku_qty = sku_qty_processing()
 
 sku = 0
 print('\nList of Skus: \n')
@@ -21,9 +24,14 @@ for qty in range(len(sku_qty)):
     print(sku_qty['Quantity'][qty])
     qty+1
 
+# print the biz crit orders
+bco = 0
+print('\n \n biz crit orders are orders #:')
+for bco in range(len(order_status)):
+    print(order_status[bco])
+    bco+1
 
 # Once processed by the tff-stock-ordering-master, enter the needed products for final process
-
 print("\n\n Enter/Paste the products needed from tff-stock-ordering-master, then Ctrl-Z to get the results.\n")
 
 content = []
