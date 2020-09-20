@@ -1,9 +1,18 @@
 import pandas as pd
 import re
+from pathlib import Path
+
+# This function reads the csv file and extracts the sku numbers and quantities needed
+# it returns a data frame with 2 columns : sku# and quantity.
+
+
 
 def sku_qty_processing() :
-    #upload and read file, get index size
-    orders = pd.read_csv('zapier-order-sheet-daily-orders.csv', dtype=str)
+    #upload and read file for the downloads folder, get index size
+    dir_to_downloads = '/Users/Delphine/downloads'
+    p_downloads = Path(dir_to_downloads)
+    orders = pd.read_csv(p_downloads/'zapier-order-sheet - daily-orders.csv')
+    
     index_size = len(orders.index)
 
     #create new order file

@@ -1,7 +1,12 @@
 import pandas as pd
+from pathlib import Path
 
 def orders_business_critical():
-    orders = pd.read_csv('zapier-order-sheet-daily-orders.csv', dtype=str)
+    dir_to_downloads = '/Users/Delphine/downloads'
+    p_downloads = Path(dir_to_downloads)
+    orders = pd.read_csv(p_downloads/'zapier-order-sheet - daily-orders.csv')
+
+
     index_size = len(orders.index)
 
     #look into the ['Text'] column for the term "business critical", return bolean
