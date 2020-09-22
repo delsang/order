@@ -1,33 +1,42 @@
 import pandas as pd
-import numpy as np
 import math
-import re
-from pathlib import Path
+from list_to_panda import order_to_pd
+from paths import supliers_pricelist
 
 
-for i in range (0, sku_qty_size):
+def moq_process():
+    df = order_to_pd()
+    pricelist = supliers_pricelist()
 
-    price_list_line = pricelist.loc[pricelist['Item No.'] == sku_qty['Sku'][i]]
-    item = pricelist.loc[price_list_line.index]
-    qty_needed = int(sku_qty['Quantity'][i])
+    for i in range (0, len(df.index)):
+        #try:
+        price_list_line = pricelist.loc[pricelist['Item No.'] == df['Sku'][i]]
+        item = pricelist.loc[price_list_line.index]
+        #index_item = item.index[0]
+        qty_needed = int(df['Quantity'][i])
+
+        #except:
+            # The product code isn't on the price list, order the quantity originally ordered
+         #   sku_qty.at[i, 'To Order'] = qty_needed
+
+        #continue
+
+        # Dealing with the cutlery having to be ordered in dozens only
+
+        if ((price_list_line['Unit']  == 'Doz').all() | (price_list_line['Unit']  == 'DOZ').all()):
+
+            to_order = math.ceil(qty_needed / 12)
+            df.at[i, 'To Order'] = to_order
 
 
-    # Dealing with the cutlery having to be ordered in dozens only
+        else :
 
-    if ((price_list_line['Unit']  == 'Doz').all() | (price_list_line['Unit']  == 'DOZ').all()):
+        # The product code is on the price list, make the calculations based on MOQ
+        # Most of products will follow this
 
-        to_order = math.ceil(qty_needed / 12)
-        sku_qty.at[i, 'To Order'] = to_order
-
-
-    else :
-
-    # The product code is on the price list, make the calculations based on MOQ
-    # Most of products will follow this
-
-        moq = int(item['MOQ'][item.index[0]])
-        to_order = math.ceil(qty_needed / moq) * moq
-        sku_qty.at[i, 'To Order'] = to_order
+            moq = int(item['MOQ'][item.index[0]])
+            to_order = math.ceil(qty_needed / moq) * moq
+            df.at[i, 'To Order'] = to_order
 
 
-sku_qty
+    return df

@@ -1,6 +1,7 @@
 import pandas as pd
 import list_to_panda
-from list_to_panda import codes_group_by
+from list_to_panda import order_to_pd
+from order_ready import get_order_toplace
 from daily_orders import sku_qty_processing
 from bizcrit import orders_business_critical
 
@@ -34,19 +35,20 @@ for bco in range(len(order_status)):
 # Once processed by the tff-stock-ordering-master, enter the needed products for final process
 print("\n\n Enter/Paste the products needed from tff-stock-ordering-master, then Ctrl-Z to get the reults.\n")
 
-content = []
+#content = []
 tomkin = []
 trenton = []
 
 #get input, stop when ctrl Z + enter is done
-while True:
-    try:
-        prod_codes = input()
-        content.append(prod_codes)
-    except EOFError:
-        break
+#while True:
+    #try:
+    #    prod_codes = input()
+    #    content.append(prod_codes)
+    #except EOFError:
+    #    break
 
-codes_list = codes_group_by(content)
+
+codes_list = get_order_toplace()
 
 
 #returning codes_list

@@ -2,37 +2,24 @@ import pandas as pd
 
 # This function returns a list of the order to place
 
-def codes_group_by(content):
-    #content = ['EVE10501.TK x 3', 'CC528748 x 1', '53631 x 4', '69890.TK x 2', 'CC528748 x 1']
+def order_to_pd():
+    content = []
+    while True:
+        try:
+            prod_codes = input()
+            content.append(prod_codes)
+        except EOFError:
+            break
 
-    df = pd.DataFrame(content, columns = ['code'])
-
+    df = pd.DataFrame(content, columns = ['ordering'])
     df = df.join(
-        df.code.str.rsplit(n=2 , expand=True).rename(
-            columns={0: 'product code', 1: 'times', 2: 'quantities'}
+            df.ordering.str.rsplit(n=2 , expand=True).rename(
+                columns={0: 'Sku', 1: 'times', 2: 'Quantity'}
+            )
         )
-    )
-
-    df = df.drop(['code', 'times'], axis = 1)
+    df = df.drop(['ordering', 'times'], axis = 1)
     df= df.dropna(axis=0)
-    df = df.astype({"quantities": int})
+    df = df.astype({"Quantity": int})
+    df = df.groupby(by='Sku', as_index = False ).sum()
 
-
-    df = df.groupby(by='product code', as_index = False ).sum()
-
-
-    codes_list = []
-    i=0
-
-    def convertTuple(tup):
-        str =  ''.join(tup)
-        return str
-
-    for i in df.index:
-        code_plus_quantities = df['product code'][i], ' x ' , str(df['quantities'][i])
-        code_plus_quantities = convertTuple(code_plus_quantities)
-        codes_list.append(code_plus_quantities)
-        i+1
-
-
-    return(codes_list)
+    return df
