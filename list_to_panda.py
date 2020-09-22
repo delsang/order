@@ -1,5 +1,7 @@
 import pandas as pd
 
+# This function returns a list of the order to place
+
 def codes_group_by(content):
     #content = ['EVE10501.TK x 3', 'CC528748 x 1', '53631 x 4', '69890.TK x 2', 'CC528748 x 1']
 

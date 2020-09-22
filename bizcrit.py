@@ -1,13 +1,12 @@
 import pandas as pd
 from pathlib import Path
+from paths import daily_ordercsv
+
 
 def orders_business_critical():
-    dir_to_downloads = '/Users/Delphine/downloads'
-    p_downloads = Path(dir_to_downloads)
-    orders = pd.read_csv(p_downloads/'zapier-order-sheet - daily-orders.csv')
+    daily_orders = daily_ordercsv()
 
-
-    index_size = len(orders.index)
+    index_size = len(daily_orders.index)
 
     #look into the ['Text'] column for the term "business critical", return bolean
     def isbizcrit(text):
@@ -24,8 +23,8 @@ def orders_business_critical():
     i=0
 
     for i in range(0, index_size):
-        text = orders['Text'][i]
-        order_number = orders['order #'][i].split('20000',1)[1]
+        text = daily_orders['Text'][i]
+        order_number = daily_orders['order #'][i].split('20000',1)[1]
         iscrit = isbizcrit(text)
         status_order = status_order.append({'Order Number':order_number, 'bizcrit':iscrit}, ignore_index=True)
 
