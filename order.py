@@ -19,11 +19,18 @@ for sku in range(len(sku_qty)):
     print(sku_qty['Sku'][sku])
     sku+1
 
-print('\nQuantities: \n')
+
 qty = 0
+print('\nQuantities: \n')
 for qty in range(len(sku_qty)):
     print(sku_qty['Quantity'][qty])
     qty+1
+
+ordernumber = 0
+print('\n Order number corresponding: \n')
+for ordernumber in range(len(sku_qty)):
+    print(sku_qty['Order#'][ordernumber])
+    ordernumber+1
 
 # print the biz crit orders
 bco = 0

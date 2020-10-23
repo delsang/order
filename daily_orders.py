@@ -7,27 +7,37 @@ from paths import daily_ordercsv
 
 
 def sku_qty_processing() :
-    #upload and read file for the downloads folder, get index size
+#upload and read file for the downloads folder, get index size
     daily_orders = daily_ordercsv()
     index_size = len(daily_orders.index)
+    df = pd.DataFrame(columns=['order#', 'Text'])
 
-    #create new order file
-    sku_qty = pd.DataFrame(columns=['Sku', 'Quantity'])
-
-    # find the sku numbers and quantities
-    i = 0
-    j=0
-
+# Modify the data frame to get rid of the useless text in the "order#"" column
+    i=0
     for i in range(0, index_size):
-        text = daily_orders['Text'][i]
-        sku = re.findall('<p class="sku" style="margin-top: 0; margin-bottom: 0;">SKU: (.*)</p>', text)
-        quantity = re.findall('<td class="item-qty" style="font-family: \'Open Sans\',\'Helvetica Neue\',Helvetica,Arial,sans-serif; vertical-align: top; text-align: center;">(.*)</td>', text)
+        order_number = daily_orders['order #'][i].split('20000',1)[1]
 
-        #add the skus and quantities to the sku_qty dataframe
-        for j in range(0, len(sku)):
-            sku_qty = sku_qty.append({'Sku':sku[j], 'Quantity':quantity[j]}, ignore_index=True)
-            j+1
+        df = df.append({'order#':order_number, 'Text': daily_orders['Text'][i]}, ignore_index=True)
 
         i+1
+
+# - Column A is the order number (same on all rows)
+# - Column B sku number
+# - Column C quantities of sku needed
+
+    sku_qty = pd.DataFrame(columns=['Order#', 'Sku', 'Quantity'])
+
+    k=0
+    for k in range(0, index_size):
+        text = df['Text'][k]
+        order_number = df['order#'][k]
+        sku = re.findall('<p class="sku" style="margin-top: 0; margin-bottom: 0;">SKU: (.*)</p>', text)
+        quantity = re.findall('<td class="item-qty" style="font-family: \'Open Sans\',\'Helvetica Neue\',Helvetica,Arial,sans-serif; vertical-align: top; text-align: center;">(.*)</td>', text)
+        k+1
+
+        for i in range(0,len(sku)):
+            sku_qty = sku_qty.append({'Sku':sku[i], 'Quantity':quantity[i], 'Order#':order_number}, ignore_index=True)
+
+
 
     return sku_qty
