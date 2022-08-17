@@ -1,5 +1,9 @@
 # Automation of the PO process from Magento to email.
 
+This program was used from 2020 to early 2021, then we refactored and moved the script to a Jupyter notebook file as it was easier to use by the whole team. 
+See repo "Order script Jupyter"
+
+
 Problem:
 The purchasing system is all manual, time consuming and all about copy and pasting.
 
